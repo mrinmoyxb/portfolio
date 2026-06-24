@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mrinmoy Borah — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>~/</span>mrinmoy-borah</div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#experience">experience</a>
+    <a href="#projects">projects</a>
+    <a href="#research">research</a>
+    <a href="#skills">skills</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="grid-bg"></div>
+  <div style="max-width:960px;margin:0 auto;width:100%;position:relative;z-index:1;">
+    <div class="hero-eyebrow">MACHINE LEARNING &amp; MOBILE ENGINEER</div>
+    <h1 class="hero-name">Mrinmoy<br><span class="accent">Borah</span><span class="cursor">_</span></h1>
+    <p class="hero-title">Building research-grade AI systems and production-ready apps</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">&#9658; view projects</a>
+      <a href="https://github.com/mrinmoyxb" class="btn btn-outline" target="_blank">&#8997; github</a>
+      <a href="#contact" class="btn btn-outline">&#9993; contact</a>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label reveal">// 01 — ABOUT</div>
+    <h2 class="section-title reveal reveal-delay-1">Who I am</h2>
+    <div class="terminal reveal reveal-delay-2">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green-mac"></div>
+        <span class="terminal-title">mrinmoy@portfolio ~ info.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="prompt">$</span> <span class="cmd">whoami</span></div>
+        <div class="t-line"><span class="val">Mrinmoy Borah</span> <span class="comment">— ML Researcher &amp; Developer, Jaipur, India</span></div>
+        <div class="t-line" style="margin-top:10px;"><span class="prompt">$</span> <span class="cmd">cat education.txt</span></div>
+        <div class="t-line"><span class="comment">#</span> <span class="string">MCA</span> &rarr; Manipal University Jaipur &nbsp;<span class="val">9.75 CGPA</span> <span class="comment">(Sem II, 2025–2027)</span></div>
+        <div class="t-line"><span class="comment">#</span> <span class="string">BCA</span> &rarr; Assam Royal Global University &nbsp;<span class="val">9.79 CGPA</span> <span class="comment">(Gold Medalist, 2022–2025)</span></div>
+        <div class="t-line" style="margin-top:10px;"><span class="prompt">$</span> <span class="cmd">cat interests.json</span></div>
+        <div class="t-line"><span class="val">{</span></div>
+        <div class="t-line">&nbsp;&nbsp;<span class="string">"focus"</span>: <span class="val">["Deep Learning", "NLP", "Computer Vision", "Backend"]</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="string">"currently"</span>: <span class="val">"Full Stack Dev + Machine Learning"</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="string">"writing"</span>: <span class="string">"medium.com/@mrinmoyborah"</span>,</div>
+        <div class="t-line">&nbsp;&nbsp;<span class="string">"scholar"</span>: <span class="string">"scholar.google.com/citations?user=2x3Bh5sAAAAJ"</span></div>
+        <div class="t-line"><span class="val">}</span></div>
+        <div class="t-line" style="margin-top:10px;"><span class="prompt">$</span> <span class="cursor">&#9608;</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-label reveal">// 02 — EXPERIENCE</div>
+    <h2 class="section-title reveal reveal-delay-1">Where I've worked</h2>
+    <div class="exp-card reveal reveal-delay-2">
+      <div class="exp-role">Android Application Developer</div>
+      <div class="exp-company">Sane InfoTech &middot; Guwahati, Assam</div>
+      <div class="exp-date">May 2024 — Aug 2024</div>
+      <ul class="exp-bullets">
+        <li>Built two native Android apps (Admin + User) in Kotlin + Firebase for a school management system serving 1000+ students.</li>
+        <li>Shipped attendance tracking, grade management, timetable scheduling, fee monitoring, and teacher dashboards.</li>
+        <li>Implemented student-facing views for scores, attendance history, and fee details.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label reveal">// 03 — PROJECTS</div>
+    <h2 class="section-title reveal reveal-delay-1">Things I've built</h2>
+    <div class="projects-grid">
+      <a href="https://github.com/mrinmoyxb/Cypher" target="_blank" class="project-card reveal reveal-delay-1">
+        <div class="project-header">
+          <div class="project-name">Cypher</div>
+          <div class="project-stars">&#9733; 4</div>
+        </div>
+        <div class="project-desc">Android app powered by Google's Gemini API for natural language processing, personalized AI features and real-time communication.</div>
+        <div class="project-lang"><div class="lang-dot lang-kotlin"></div> Kotlin &middot; Jetpack Compose &middot; Gemini API</div>
+      </a>
+      <a href="https://github.com/mrinmoyxb/Cardiac-Compass" target="_blank" class="project-card reveal reveal-delay-2">
+        <div class="project-header">
+          <div class="project-name">Cardiac Compass</div>
+          <div class="project-stars">&#9733; 1</div>
+        </div>
+        <div class="project-desc">Android app + ML backend detecting heart disease with 97% accuracy, combining Kotlin UI with a Python-trained Decision Tree model.</div>
+        <div class="project-lang"><div class="lang-dot lang-kotlin"></div> Kotlin &middot; Python &middot; ML</div>
+      </a>
+      <a href="https://github.com/mrinmoyxb/Pneumonia-vs.-Normal-Lungs-X-Rays-CNN-Classification-Model" target="_blank" class="project-card reveal reveal-delay-3">
+        <div class="project-header">
+          <div class="project-name">Pneumonia X-Ray CNN</div>
+          <div class="project-stars">&#9733; 5</div>
+        </div>
+        <div class="project-desc">Deep learning CNN classifying chest X-rays as pneumonia or normal using TensorFlow, with data augmentation and hyperparameter tuning.</div>
+        <div class="project-lang"><div class="lang-dot lang-jupyter"></div> TensorFlow &middot; Computer Vision</div>
+      </a>
+      <a href="https://github.com/mrinmoyxb/Anzen-PasswordsVault" target="_blank" class="project-card reveal reveal-delay-4">
+        <div class="project-header">
+          <div class="project-name">Anzen</div>
+          <div class="project-stars">&#9733; 2</div>
+        </div>
+        <div class="project-desc">Secure Android password vault and generator built with Kotlin and Jetpack Compose, including password health checks.</div>
+        <div class="project-lang"><div class="lang-dot lang-kotlin"></div> Kotlin &middot; Jetpack Compose</div>
+      </a>
+      <a href="https://github.com/mrinmoyxb/octopus" target="_blank" class="project-card reveal reveal-delay-5">
+        <div class="project-header">
+          <div class="project-name">Octopus</div>
+          <div class="project-stars">&#9733; 1</div>
+        </div>
+        <div class="project-desc">A terminal-native API client for developers who live in the command line — inspect, test, and debug APIs without leaving the shell.</div>
+        <div class="project-lang"><div class="lang-dot lang-js"></div> JavaScript &middot; CLI</div>
+      </a>
+      <a href="https://github.com/mrinmoyxb/Suicidal-Tweet-Detection-NLP-Model" target="_blank" class="project-card reveal reveal-delay-6">
+        <div class="project-header">
+          <div class="project-name">NLP Suicide Detection</div>
+          <div class="project-stars">&#9733; 1</div>
+        </div>
+        <div class="project-desc">Deep learning NLP model detecting potentially suicidal content in tweets, trained for real-world crisis monitoring use cases.</div>
+        <div class="project-lang"><div class="lang-dot lang-jupyter"></div> NLP &middot; Deep Learning</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-wrap">
+    <div class="section-label reveal">// 04 — RESEARCH</div>
+    <h2 class="section-title reveal reveal-delay-1">Published papers</h2>
+    <div class="research-item reveal reveal-delay-2">
+      <div class="research-num">[1]</div>
+      <div>
+        <div class="research-title">Beyond Characters: A Machine Learning Approach to Password Strength Analysis</div>
+        <div class="research-meta">
+          <span>CRC Press &middot; Taylor &amp; Francis Group</span>
+          <span>NEIAIS-2025, Manipur</span>
+          <span>Feb 2025</span>
+          <span class="research-badge">Published</span>
+        </div>
+      </div>
+    </div>
+    <div class="research-item reveal reveal-delay-3">
+      <div class="research-num">[2]</div>
+      <div>
+        <div class="research-title">Enhancing Investment Decisions: A Machine Learning Approach to Recommending Stocks and Mutual Funds</div>
+        <div class="research-meta">
+          <span>IEEE</span>
+          <span>ISACC 2025, Assam</span>
+          <span>Feb 2025</span>
+          <span class="research-badge">Published</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label reveal">// 05 — SKILLS</div>
+    <h2 class="section-title reveal reveal-delay-1">Tech stack</h2>
+    <div class="skills-grid">
+      <div class="skill-group reveal reveal-delay-1">
+        <div class="skill-group-name">LANGUAGES</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">Kotlin</span>
+          <span class="skill-tag">C++</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Swift</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <div class="skill-group-name">ML / AI</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TensorFlow</span><span class="skill-tag">Scikit-learn</span>
+          <span class="skill-tag">NLP</span><span class="skill-tag">CNN</span><span class="skill-tag">LangChain</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-3">
+        <div class="skill-group-name">MOBILE</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Android</span><span class="skill-tag">Jetpack Compose</span>
+          <span class="skill-tag">Firebase</span><span class="skill-tag">Gemini API</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-4">
+        <div class="skill-group-name">BACKEND</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span><span class="skill-tag">Express</span>
+          <span class="skill-tag">MongoDB</span><span class="skill-tag">MySQL</span><span class="skill-tag">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-5">
+        <div class="skill-group-name">CERTS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">DeepLearning.AI</span><span class="skill-tag">TF Developer</span>
+          <span class="skill-tag">DataCamp DS Pro</span><span class="skill-tag">Stanford ML</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-6">
+        <div class="skill-group-name">TOOLS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span><span class="skill-tag">Streamlit</span>
+          <span class="skill-tag">Jupyter</span><span class="skill-tag">Linux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-label reveal">// 06 — CONTACT</div>
+    <h2 class="section-title reveal reveal-delay-1">Get in touch</h2>
+    <div class="contact-grid">
+      <a href="mailto:mrinmoyborah26100@gmail.com" class="contact-link reveal reveal-delay-1">
+        <div class="contact-icon">&#9993;</div>
+        <div class="contact-platform">EMAIL</div>
+        <div class="contact-value">mrinmoyborah26100@gmail.com</div>
+      </a>
+      <a href="https://github.com/mrinmoyxb" target="_blank" class="contact-link reveal reveal-delay-2">
+        <div class="contact-icon">&#8997;</div>
+        <div class="contact-platform">GITHUB</div>
+        <div class="contact-value">github/@mrinmoyxb</div>
+      </a>
+      <a href="https://linkedin.com/in/mrinmoy-borah-8b68b7290" target="_blank" class="contact-link reveal reveal-delay-3">
+        <div class="contact-icon">&#9672;</div>
+        <div class="contact-platform">LINKEDIN</div>
+        <div class="contact-value">in/@mrinmoyborah</div>
+      </a>
+      <a href="https://medium.com/@mrinmoyborah" target="_blank" class="contact-link reveal reveal-delay-4">
+        <div class="contact-icon">&#9998;</div>
+        <div class="contact-platform">MEDIUM</div>
+        <div class="contact-value">medium/@mrinmoyborah</div>
+      </a>
+      <a href="https://scholar.google.com/citations?user=2x3Bh5sAAAAJ" target="_blank" class="contact-link reveal reveal-delay-5">
+        <div class="contact-icon">&#8706;</div>
+        <div class="contact-platform">SCHOLAR</div>
+        <div class="contact-value">scholar/@mrinmoyborah</div>
+      </a>
+      <a href="https://www.instagram.com/mrinmoyxb.dev" target="_blank" class="contact-link reveal reveal-delay-6">
+        <div class="contact-icon">&#9685;</div>
+        <div class="contact-platform">INSTAGRAM</div>
+        <div class="contact-value">@mrinmoyxb.dev</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>built with &#10084;&#65039; &nbsp;&middot;&nbsp; </span>
+  <span class="green">mrinmoy borah</span>
+  <span> &nbsp;&middot;&nbsp; always learning, always building &#128640;</span>
+</footer>
+
+<script>
+  /* ── SCROLL REVEAL ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* ── TERMINAL REVEAL ── */
+  const terminal = document.querySelector('.terminal');
+  const termObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        termObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  if (terminal) termObs.observe(terminal);
+
+  /* ── COUNT-UP ── */
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimal) || 0;
+    const duration = 1400;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = (eased * target).toFixed(decimals);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const counters = document.querySelectorAll('.count-up');
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCount(e.target);
+        countObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => countObs.observe(c));
+
+  /* ── ACTIVE NAV HIGHLIGHT ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.style.color = '');
+        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (active) active.style.color = 'var(--green)';
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => navObs.observe(s));
+</script>
+</body>
+</html>
