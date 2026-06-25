@@ -734,3 +734,227 @@
     padding-left: 10px; margin-top: 4px;
   }
   .ml-error { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #ff8a7a; }
+
+  /* ── CERTIFICATIONS ── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .cert-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green-dim), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cert-card:hover::before { opacity: 1; }
+  .cert-card:hover {
+    border-color: var(--green-dim);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(78,255,145,0.07);
+  }
+  .cert-issuer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cert-issuer-badge {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+  .cert-issuer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .cert-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .cert-verified {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    background: var(--green-muted);
+    border: 1px solid rgba(78,255,145,0.2);
+    border-radius: 3px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .cert-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .cert-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .cert-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 2px 7px;
+  }
+  .cert-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--green-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-top: auto;
+  }
+  .cert-link:hover { color: var(--green); }
+
+  /* ── CODING PROFILES ── */
+  .coding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .coding-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .coding-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green-dim), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .coding-card:hover::after { transform: scaleX(1); }
+  .coding-card:hover {
+    border-color: var(--green-dim);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(78,255,145,0.07);
+  }
+  .coding-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .coding-logo {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+  .lc-logo { background: linear-gradient(135deg, #f89f1b, #e05d00); }
+  .hr-logo { background: linear-gradient(135deg, #2ec866, #0d8a41); }
+  .coding-platform-info { flex: 1; }
+  .coding-platform-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .coding-handle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .coding-visit-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #0a0e0a;
+    background: var(--green);
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .coding-visit-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .coding-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .coding-stat {
+    text-align: center;
+    padding: 4px 0;
+  }
+  .coding-stat + .coding-stat {
+    border-left: 1px solid var(--border);
+  }
+  .coding-stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .coding-stat-num.green { color: var(--green); }
+  .coding-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+  .coding-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .coding-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 2px 7px;
+    transition: border-color 0.2s;
+  }
+  .coding-card:hover .coding-tag { border-color: var(--border-bright); }
