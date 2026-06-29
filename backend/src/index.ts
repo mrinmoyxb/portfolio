@@ -3,7 +3,7 @@ import staticPlugin from "@fastify/static";
 import path from "path";
 import { getHealth } from "./routes/routes.health";
 
-const app = Fastify({logger: true});
+const app = Fastify({logger: true, ignoreTrailingSlash: true});
 
 app.register(getHealth)
 
