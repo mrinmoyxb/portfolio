@@ -19,12 +19,7 @@ export async function submitContact(
     request: FastifyRequest<{Body:ContactBody}>,
     reply: FastifyReply)
 {
-
-
-    console.log("user: ✅",process.env.GMAIL_USER);
-    
     const { name, email, message } = request.body;
-    console.log("name: ✅", name);
     if(!name?.trim() || !email?.trim() || !message?.trim()){
         return reply.code(400).send({error: "All fields are required"});
     }
