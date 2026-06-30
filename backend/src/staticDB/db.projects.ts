@@ -1,9 +1,9 @@
 interface Project {
-    pname: string, 
-    description: string, 
-    github: string, 
-    star: number,
-    tags: string[]
+    pname: string;
+    description: string;
+    github: string;
+    star: number;
+    tags: string[];
 }
 
 export const projects: Project[] = 

@@ -1,3 +1,4 @@
 node_modules/
 roadmap.md
 dist/
+.env

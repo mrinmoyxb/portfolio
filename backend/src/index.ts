@@ -1,15 +1,27 @@
+import "dotenv/config";
+
 import Fastify from "fastify";
 import staticPlugin from "@fastify/static";
 import path from "path";
 import { getHealth } from "./routes/routes.health";
 import { getProjects } from "./routes/routes.projects";
 import { getCertificates } from "./routes/routes.certs";
+import cors from "@fastify/cors";
+import { getCoding } from "./routes/routes.stats";
+import { postContact } from "./staticDB/db.contact";
 
 const app = Fastify({logger: true, ignoreTrailingSlash: true});
+
+app.register(cors, {
+    origin: ["http://localhost:2610", "http://3.6.237.123"],
+    methods: ["GET", "POST"]
+})
 
 app.register(getHealth)
 app.register(getProjects);
 app.register(getCertificates);
+app.register(getCoding);
+app.register(postContact);
 
 app.register(staticPlugin, {
     root: path.join(__dirname, "../../frontend"),

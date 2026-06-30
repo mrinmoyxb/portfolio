@@ -1,10 +1,10 @@
 interface Certification {
-    issuer: string
-    platform: string,
-    name: string, 
-    date: string,
-    tags: string[],
-    url: string,
+    issuer: string;
+    platform: string;
+    name: string;
+    date: string;
+    tags: string[];
+    url: string;
 }
 
 export const certs: Certification[] = [
