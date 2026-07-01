@@ -7,37 +7,38 @@ interface ContactBody {
     message: string;
 }
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD
-    }
-});
-
 export async function submitContact(
-    request: FastifyRequest<{Body:ContactBody}>,
-    reply: FastifyReply)
-{
+    request: FastifyRequest<{ Body: ContactBody }>,
+    reply: FastifyReply) {
+    console.log("GMAIL_USER:", process.env.GMAIL_USER);
+    console.log("GMAIL_APP_PASSWORD:", process.env.GMAIL_APP_PASSWORD ? "loaded" : "undefined");
     const { name, email, message } = request.body;
-    if(!name?.trim() || !email?.trim() || !message?.trim()){
-        return reply.code(400).send({error: "All fields are required"});
+    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+        return reply.code(400).send({ error: "All fields are required" });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(!emailRegex.test(email)){
-        return reply.status(400).send({error: "Invalid email address"});
-    } 
-
-    if(message.trim().length < 10){
-        return reply.status(400).send({error: "Message too short"});
+    if (!emailRegex.test(email)) {
+        return reply.status(400).send({ error: "Invalid email address" });
     }
 
-    if(message.trim().length > 2000){
-        return reply.status(400).send({error: "Message too long"});
+    if (message.trim().length < 10) {
+        return reply.status(400).send({ error: "Message too short" });
     }
 
-    try{
+    if (message.trim().length > 2000) {
+        return reply.status(400).send({ error: "Message too long" });
+    }
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_APP_PASSWORD
+        }
+    });
+
+    try {
         await transporter.sendMail({
             from: `"Portfolio Contact" <${process.env.GMAIL_USER}>`,
             to: process.env.CONTACT_RECEIVER,
@@ -51,10 +52,11 @@ export async function submitContact(
                 <p>${message.replace(/\n/g, "<br/>")}</p>
             `
         });
-        return reply.status(200).send({success: true});
-    }catch(err){
+        return reply.status(200).send({ success: true });
+    } catch (err) {
+        console.error("Nodemailer error:", err);
         request.log.error(err);
-        return reply.status(500).send({error: "Failed to send message. Try again"})
+        return reply.status(500).send({ error: "Failed to send message. Try again" })
     }
 
 }

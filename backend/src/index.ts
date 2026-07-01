@@ -10,6 +10,7 @@ import cors from "@fastify/cors";
 import { getCoding } from "./routes/routes.stats";
 import rateLimit from "@fastify/rate-limit";
 import { registerContactRoute } from "./routes/routes.contacts";
+import { loadSecrets } from "./config/secrets";
 
 const app = Fastify({ logger: true, ignoreTrailingSlash: true, trustProxy: true });
 
@@ -24,6 +25,8 @@ process.on("SIGTERM", shutdown);
 
 const start = async () => {
     try {
+        await loadSecrets();
+        
         await app.register(cors, {
             origin: ["http://localhost:2610", "http://3.6.237.123"],
             methods: ["GET", "POST"]
