@@ -11,6 +11,9 @@ import { getCoding } from "./routes/routes.stats";
 import rateLimit from "@fastify/rate-limit";
 import { registerContactRoute } from "./routes/routes.contacts";
 import { loadSecrets } from "./config/secrets";
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
+import { registeredClassifyRoute } from "./routes/routes.classify";
 
 const app = Fastify({ logger: true, ignoreTrailingSlash: true, trustProxy: true });
 
@@ -26,7 +29,7 @@ process.on("SIGTERM", shutdown);
 const start = async () => {
     try {
         await loadSecrets();
-        
+
         await app.register(cors, {
             origin: ["http://localhost:2610", "http://3.6.237.123"],
             methods: ["GET", "POST"]
@@ -39,19 +42,41 @@ const start = async () => {
             })
         })
 
-        app.log.info("Rate limit plugin registered: " + !!app.rateLimit);
+        await app.register(swagger, {
+            openapi: {
+                info: {
+                    title: "Portfolio API Documentation",
+                    description: "Backend API documentation for my portfolio website",
+                    version: "1.0.0"
+                },
+                servers: [
+                    { url: "http://3.6.237.123/", description: "AWS EC2 server" }
+                ]
+            }
+        });
+
+        await app.register(swaggerUi, {
+            routePrefix: "/docs", 
+            uiConfig: {
+                docExpansion: "list",
+                deepLinking: false
+            }
+        });
 
         app.register(getHealth)
         app.register(getProjects);
         app.register(getCertificates);
         app.register(getCoding);
         await registerContactRoute(app);
+        await registeredClassifyRoute(app);
 
         app.register(staticPlugin, {
             root: path.join(__dirname, "../../frontend"),
             prefix: "/"
         });
+
         await app.listen({ port: 2610, host: "0.0.0.0" });
+        
     } catch (err) {
         app.log.error(err);
         process.exit(1);
