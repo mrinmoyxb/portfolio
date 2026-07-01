@@ -28,6 +28,10 @@ const BLOCKED_PATTERNS = [
     /show me your (system |)prompt/i,
     /reveal your (system |)prompt/i,
     /what (is|was) (in )?your context/i,
+
+    /circumvent .{0,20}(prompt|filter|rule|instruction)/i,
+    /get around .{0,20}(prompt|filter|rule|instruction)/i,
+    /break (out of|free from) .{0,20}(prompt|filter|rule)/i,
 ];
 
 const OFF_TOPIC_PATTERNS = [
