@@ -45,20 +45,21 @@ const start = async () => {
         await app.register(swagger, {
             openapi: {
                 info: {
-                    title: "Portfolio API Documentation",
-                    description: "Backend API documentation for my portfolio website",
-                    version: "1.0.0"
+                    title: 'Portfolio API',
+                    description: 'API documentation for portfolio backend',
+                    version: '1.0.0'
                 },
                 servers: [
-                    { url: "http://3.6.237.123/", description: "AWS EC2 server" }
+                    { url: 'http://3.6.237.123', description: 'Production' },
+                    { url: 'http://localhost:2610', description: 'Local' }
                 ]
             }
         });
 
         await app.register(swaggerUi, {
-            routePrefix: "/docs", 
+            routePrefix: '/docs',
             uiConfig: {
-                docExpansion: "list",
+                docExpansion: 'list',
                 deepLinking: false
             }
         });
@@ -76,7 +77,7 @@ const start = async () => {
         });
 
         await app.listen({ port: 2610, host: "0.0.0.0" });
-        
+
     } catch (err) {
         app.log.error(err);
         process.exit(1);

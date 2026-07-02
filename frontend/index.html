@@ -10,6 +10,14 @@
 </head>
 <body>
 
+<!-- AI FIREWALL TICKER -->
+<div class="firewall-ticker">
+  <div class="firewall-ticker-track" id="firewall-ticker-track">
+    <span>⚡ CHALLENGE: the terminal above is guarded by a custom prompt firewall — try to make it answer anything outside my portfolio and see if you can break it.</span>
+    <span>⚡ CHALLENGE: the terminal above is guarded by a custom prompt firewall — try to make it answer anything outside my portfolio and see if you can break it.</span>
+  </div>
+</div>
+
 <nav>
   <div class="nav-logo"><span>~/</span>mrinmoyxb.dev</div>
   <div class="nav-links">
@@ -133,7 +141,7 @@
   <div class="section-wrap">
     <div class="section-label reveal">// 03 — PROJECTS</div>
     <h2 class="section-title reveal reveal-delay-1">Things I've built</h2>
-    <div class="projects-grid">
+    <div class="projects-grid" id="projects-grid">
       <a href="https://github.com/mrinmoyxb/Cypher" target="_blank" class="project-card reveal reveal-delay-1">
         <div class="project-header">
           <div class="project-name">Cypher</div>
@@ -227,7 +235,7 @@
   <div class="section-wrap">
     <div class="section-label reveal">// 05 — CERTIFICATIONS</div>
     <h2 class="section-title reveal reveal-delay-1">Credentials</h2>
-    <div class="cert-grid">
+    <div class="cert-grid" id="cert-grid">
 
       <div class="cert-card reveal reveal-delay-1">
         <div class="cert-issuer-row">
@@ -350,7 +358,7 @@
   <div class="section-wrap">
     <div class="section-label reveal">// 07 — CODING PROFILES</div>
     <h2 class="section-title reveal reveal-delay-1">Problem solving</h2>
-    <div class="coding-grid">
+    <div class="coding-grid" id="coding-grid">
 
       <div class="coding-card reveal reveal-delay-1">
         <div class="coding-header">
@@ -399,8 +407,8 @@
             <div class="coding-stat-label">Python</div>
           </div>
           <div class="coding-stat">
-            <div class="coding-stat-num" style="color:#ffc56a;">5&#9733;</div>
-            <div class="coding-stat-label">Problem Solving</div>
+            <div class="coding-stat-num" style="color:#ffc56a;">5&#9733;</div> 
+            <div class="coding-stat-label">Problem Solving</div>           
           </div>
           <div class="coding-stat">
             <div class="coding-stat-num" style="color:#6ab4ff;">4&#9733;</div>
@@ -427,7 +435,27 @@
   <div class="section-wrap">
     <div class="section-label reveal">// 08 — CONTACT</div>
     <h2 class="section-title reveal reveal-delay-1">Get in touch</h2>
-    <div class="contact-grid">
+
+    <div class="contact-columns">
+      <form class="contact-form-wrap reveal reveal-delay-1" id="contact-form">
+        <div class="contact-form-title">$ curl -X POST /api/contact</div>
+        <div class="contact-form-row">
+          <label for="cf-name">name</label>
+          <input type="text" id="cf-name" name="name" maxlength="80" required autocomplete="name" />
+        </div>
+        <div class="contact-form-row">
+          <label for="cf-email">email</label>
+          <input type="email" id="cf-email" name="email" maxlength="120" required autocomplete="email" />
+        </div>
+        <div class="contact-form-row">
+          <label for="cf-message">message</label>
+          <textarea id="cf-message" name="message" rows="4" maxlength="2000" required></textarea>
+        </div>
+        <button type="submit" class="contact-form-submit" id="cf-submit">send</button>
+        <div class="contact-form-status" id="cf-status"></div>
+      </form>
+
+      <div class="contact-grid">
       <a href="mailto:mrinmoyborah26100@gmail.com" class="contact-link reveal reveal-delay-1">
         <div class="contact-icon">&#9993;</div>
         <div class="contact-platform">EMAIL</div>
@@ -458,6 +486,7 @@
         <div class="contact-platform">INSTAGRAM</div>
         <div class="contact-value">@mrinmoyxb.dev</div>
       </a>
+      </div>
     </div>
   </div>
 </section>

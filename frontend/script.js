@@ -1,4 +1,4 @@
- /* ── SCROLL REVEAL ── */
+/* ── SCROLL REVEAL ── */
   const revealEls = document.querySelectorAll('.reveal');
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -194,42 +194,21 @@
 
     const t0 = Date.now();
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch(`${API_BASE}/api/classify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          messages: [{
-            role: 'user',
-            content: `You are MrinmoyNLP v1.0, an NLP inference API built by Mrinmoy Borah (ML researcher, Android + backend developer). Analyze the following user input and respond ONLY with a JSON object — no markdown, no explanation, no backticks.
-
-Input: "${input}"
-
-Return exactly this JSON structure:
-{
-  "sentiment": { "label": "POSITIVE|NEGATIVE|NEUTRAL", "score": <0.0-1.0> },
-  "intent": "<2-4 word intent label>",
-  "domain": "<ML|Backend|Android|General|Research|Creative|Other>",
-  "tags": ["<tag1>", "<tag2>", "<tag3>"],
-  "confidence": <0.0-1.0>,
-  "response": "<one short, witty, personalized sentence acknowledging the input, relating it to Mrinmoy's skills>",
-  "tokens": <estimated token count integer>
-}`
-          }]
-        })
+        body: JSON.stringify({ message: input })
       });
-      const data = await res.json();
       const latency = Date.now() - t0;
-      const raw = data.content[0].text;
-      let result;
-      try { result = JSON.parse(raw); } catch(e) {
-        // fallback parse if model added any wrapper text
-        const match = raw.match(/\{[\s\S]*\}/);
-        result = match ? JSON.parse(match[0]) : null;
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const result = await res.json();
+
+      // if the firewall blocked/redirected the query, show it as such
+      if (result.blocked) {
+        out.innerHTML = `<div class="ml-error">// firewall: ${escapeHtml(result.response || 'query outside portfolio scope — nice try.')}</div>`;
+      } else {
+        renderResult(result, latency, input);
       }
-      if (!result) throw new Error('parse failed');
-      renderResult(result, latency, input);
     } catch(e) {
       out.innerHTML = `<div class="ml-error">// inference error: ${e.message}</div>`;
     }
@@ -248,21 +227,35 @@ Return exactly this JSON structure:
   }
 
   function renderResult(r, latency, input) {
+    const out = document.getElementById('ml-output');
+
+    // backend currently only returns { response: "..." } — render that simply.
+    // (if sentiment/intent/etc. get added later, the richer block below still works)
+    if (!r || !r.sentiment) {
+      out.innerHTML = `
+        <div class="ml-meta-row">
+          <span class="ml-meta-item">⏱ ${latency}ms</span>
+        </div>
+        <div class="ml-response">&gt; ${escapeHtml(r && r.response ? r.response : 'no response')}</div>
+      `;
+      return;
+    }
+
     const sentColor = r.sentiment.label === 'POSITIVE' ? '#4eff91' : r.sentiment.label === 'NEGATIVE' ? '#ff8a7a' : '#ffc56a';
     const domainColor = { ML:'#4eff91', Backend:'#6ab4ff', Android:'#A97BFF', Research:'#ffc56a', Creative:'#ff8a7a', General:'#7a9c82', Other:'#7a9c82' }[r.domain] || '#7a9c82';
     const confPct = Math.round(r.confidence * 100);
     const sentPct = Math.round(r.sentiment.score * 100);
 
-    document.getElementById('ml-output').innerHTML = `
+    out.innerHTML = `
       <div class="ml-meta-row">
         <span class="ml-meta-item">⏱ ${latency}ms</span>
         <span class="ml-meta-item">~${r.tokens || '?'} tokens</span>
-        <span class="ml-meta-item ml-domain" style="color:${domainColor}">⬡ ${r.domain}</span>
+        <span class="ml-meta-item ml-domain" style="color:${domainColor}">⬡ ${escapeHtml(r.domain)}</span>
       </div>
       <div class="ml-result-grid">
         <div class="ml-result-row">
           <span class="ml-label">SENTIMENT</span>
-          <span class="ml-value" style="color:${sentColor}">${r.sentiment.label}</span>
+          <span class="ml-value" style="color:${sentColor}">${escapeHtml(r.sentiment.label)}</span>
           <div class="ml-bar-wrap"><div class="ml-bar" style="width:${sentPct}%;background:${sentColor}"></div></div>
           <span class="ml-pct">${sentPct}%</span>
         </div>
@@ -274,13 +267,13 @@ Return exactly this JSON structure:
         </div>
         <div class="ml-result-row">
           <span class="ml-label">INTENT</span>
-          <span class="ml-value" style="color:#6ab4ff">${r.intent}</span>
+          <span class="ml-value" style="color:#6ab4ff">${escapeHtml(r.intent)}</span>
         </div>
       </div>
       <div class="ml-tags">
-        ${(r.tags||[]).map(t => `<span class="ml-tag">${t}</span>`).join('')}
+        ${(r.tags||[]).map(t => `<span class="ml-tag">${escapeHtml(t)}</span>`).join('')}
       </div>
-      <div class="ml-response">&gt; ${r.response}</div>
+      <div class="ml-response">&gt; ${escapeHtml(r.response)}</div>
     `;
     // animate bars
     setTimeout(() => {
@@ -292,3 +285,219 @@ Return exactly this JSON structure:
   document.getElementById('ml-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') runInference();
   });
+  /* ══════════════════════════════════════════════
+     API-DRIVEN CONTENT
+     Base URL points at the EC2/Nginx-fronted backend.
+     Note: this is plain HTTP — if the site is ever served
+     over HTTPS, browsers will block this as mixed content,
+     so put the API behind HTTPS (e.g. via the same Nginx +
+     a domain + Let's Encrypt) at that point.
+  ══════════════════════════════════════════════ */
+  const API_BASE = 'http://3.6.237.123';
+
+  async function apiGet(path) {
+    const res = await fetch(`${API_BASE}${path}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status} on ${path}`);
+    return res.json();
+  }
+
+  function escapeHtml(str) {
+    return String(str ?? '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function langDotClass(tag) {
+    const t = (tag || '').toLowerCase();
+    if (t.includes('kotlin')) return 'lang-kotlin';
+    if (t.includes('python')) return 'lang-python';
+    if (t.includes('typescript')) return 'lang-ts';
+    if (t.includes('javascript') || t.includes('js')) return 'lang-js';
+    if (t.includes('node')) return 'lang-node';
+    if (t.includes('android')) return 'lang-android';
+    if (t.includes('jupyter') || t.includes('ml') || t.includes('tensorflow') || t.includes('cnn') || t.includes('nlp')) return 'lang-ml';
+    if (t.includes('c++') || t.includes('cpp')) return 'lang-cpp';
+    return 'lang-default';
+  }
+
+  /* ── PROJECTS ── */
+  async function loadProjects() {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+    try {
+      const projects = await apiGet('/api/projects');
+      if (!Array.isArray(projects) || !projects.length) return;
+      grid.innerHTML = projects.map((p, i) => `
+        <a href="${escapeHtml(p.github)}" target="_blank" class="project-card reveal reveal-delay-${(i % 6) + 1}">
+          <div class="project-header">
+            <div class="project-name">${escapeHtml(p.pname)}</div>
+            <div class="project-stars">&#9733; ${Number(p.star) || 0}</div>
+          </div>
+          <div class="project-desc">${escapeHtml(p.description)}</div>
+          <div class="project-lang"><div class="lang-dot ${langDotClass((p.tags || [])[0])}"></div> ${(p.tags || []).map(escapeHtml).join(' &middot; ')}</div>
+        </a>
+      `).join('');
+      observeReveals(grid);
+    } catch (e) {
+      console.warn('projects fetch failed, keeping fallback content:', e.message);
+    }
+  }
+
+  /* ── CERTIFICATIONS ── */
+  const CERT_BADGE_COLORS = ['#0b3d91', '#e65100', '#03a9f4', '#7b1fa2', '#2e7d32', '#c62828'];
+
+  async function loadCerts() {
+    const grid = document.getElementById('cert-grid');
+    if (!grid) return;
+    try {
+      const certs = await apiGet('/api/certs');
+      if (!Array.isArray(certs) || !certs.length) return;
+      grid.innerHTML = certs.map((c, i) => `
+        <div class="cert-card reveal reveal-delay-${(i % 6) + 1}">
+          <div class="cert-issuer-row">
+            <div class="cert-issuer-badge" style="background:${CERT_BADGE_COLORS[i % CERT_BADGE_COLORS.length]};">${escapeHtml((c.platform || c.issuer || '??').slice(0, 2).toUpperCase())}</div>
+            <div>
+              <div class="cert-issuer">${escapeHtml(c.issuer)}${c.platform ? ' &middot; ' + escapeHtml(c.platform) : ''}</div>
+              <div class="cert-date">${escapeHtml(c.date)}</div>
+            </div>
+            <span class="cert-verified">&#10003; verified</span>
+          </div>
+          <div class="cert-name">${escapeHtml(c.name)}</div>
+          <div class="cert-meta-row">
+            ${(c.tags || []).map(t => `<span class="cert-tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
+          <a href="${escapeHtml(c.url)}" target="_blank" class="cert-link">view credential &#8599;</a>
+        </div>
+      `).join('');
+      observeReveals(grid);
+    } catch (e) {
+      console.warn('certs fetch failed, keeping fallback content:', e.message);
+    }
+  }
+
+  /* ── CODING PROFILES ── */
+  async function loadCoding() {
+    const grid = document.getElementById('coding-grid');
+    if (!grid) return;
+    try {
+      const data = await apiGet('/api/coding');
+      const lc = data.leetcode || data.leetCode;
+      const hr = data.hackerrank || data.hackerRank;
+      if (!lc && !hr) return;
+
+      let html = '';
+
+      if (lc) {
+        html += `
+        <div class="coding-card reveal reveal-delay-1">
+          <div class="coding-header">
+            <div class="coding-logo lc-logo">LC</div>
+            <div class="coding-platform-info">
+              <div class="coding-platform-name">LeetCode</div>
+              <div class="coding-handle">@${escapeHtml(lc.username)}</div>
+            </div>
+            <a href="${escapeHtml(lc.url)}" target="_blank" class="coding-visit-btn">visit &#8599;</a>
+          </div>
+          <div class="coding-stats-grid">
+            <div class="coding-stat">
+              <div class="coding-stat-num green">${escapeHtml(lc.problemsSolved)}+</div>
+              <div class="coding-stat-label">problems solved</div>
+            </div>
+            <div class="coding-stat">
+              <div class="coding-stat-num" style="color:#ffc56a;">${escapeHtml(lc.contestRating)}</div>
+              <div class="coding-stat-label">contest rating</div>
+            </div>
+            <div class="coding-stat">
+              <div class="coding-stat-num" style="color:#6ab4ff;">${escapeHtml(lc.mainTag)}</div>
+              <div class="coding-stat-label">main focus</div>
+            </div>
+          </div>
+          <div class="coding-tags">
+            ${(lc.tags || []).map(t => `<span class="coding-tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
+        </div>`;
+      }
+
+      if (hr) {
+        const badges = (hr.badges || []).slice(0, 3);
+        html += `
+        <div class="coding-card reveal reveal-delay-2">
+          <div class="coding-header">
+            <div class="coding-logo hr-logo">HR</div>
+            <div class="coding-platform-info">
+              <div class="coding-platform-name">HackerRank</div>
+              <div class="coding-handle">@${escapeHtml(hr.username)}</div>
+            </div>
+            <a href="${escapeHtml(hr.url)}" target="_blank" class="coding-visit-btn">visit &#8599;</a>
+          </div>
+          <div class="coding-stats-grid">
+            ${badges.map(b => `
+              <div class="coding-stat">
+                <div class="coding-stat-num" style="color:#4eff91;">${'&#9733;'.repeat(Math.min(Number(b.stars) || 0, 5))}</div>
+                <div class="coding-stat-label">${escapeHtml(b.programmingLanguage)}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="coding-tags">
+            ${(hr.tags || []).map(t => `<span class="coding-tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
+        </div>`;
+      }
+
+      grid.innerHTML = html;
+      observeReveals(grid);
+    } catch (e) {
+      console.warn('coding stats fetch failed, keeping fallback content:', e.message);
+    }
+  }
+
+  /* re-run the scroll-reveal observer on freshly injected nodes */
+  function observeReveals(container) {
+    container.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('visible');
+      revealObs.observe(el);
+    });
+  }
+
+  /* ── CONTACT FORM ── */
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('cf-submit');
+      const status = document.getElementById('cf-status');
+      const payload = {
+        name: document.getElementById('cf-name').value.trim(),
+        email: document.getElementById('cf-email').value.trim(),
+        message: document.getElementById('cf-message').value.trim()
+      };
+      if (!payload.name || !payload.email || !payload.message) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'sending...';
+      status.textContent = '';
+      status.className = 'contact-form-status';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        status.textContent = '✓ message sent — thanks, I\'ll get back to you soon.';
+        status.className = 'contact-form-status ok';
+        contactForm.reset();
+      } catch (err) {
+        status.textContent = `✗ failed to send: ${err.message}. try emailing directly instead.`;
+        status.className = 'contact-form-status err';
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'send';
+    });
+  }
+
+  /* ── INIT ── */
+  loadProjects();
+  loadCerts();
+  loadCoding();
